@@ -1,24 +1,27 @@
-package org.j4k.workshops.quarkus.coffeeshop.domain;
+package org.j4k.workshops.quarkus.coffeeshop.favfood.domain;
+
+import io.quarkus.mongodb.panache.PanacheMongoEntity;
+import org.bson.codecs.pojo.annotations.BsonId;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class FavFoodOrder {
+public class FavFoodOrder extends PanacheMongoEntity {
 
     String customerName;
 
     String orderId;
 
-    List<LineItem> lineItems;
+    List<FavFoodLineItem> favFoodLineItems;
 
     public FavFoodOrder() {
     }
 
-    public FavFoodOrder(String customerName, String orderId, List<LineItem> lineItems) {
+    public FavFoodOrder(String customerName, String orderId, List<FavFoodLineItem> favFoodLineItems) {
         this.customerName = customerName;
         this.orderId = orderId;
-        this.lineItems = lineItems;
+        this.favFoodLineItems = favFoodLineItems;
     }
 
     @Override
@@ -26,7 +29,7 @@ public class FavFoodOrder {
         return new StringJoiner(", ", FavFoodOrder.class.getSimpleName() + "[", "]")
                 .add("customerName='" + customerName + "'")
                 .add("orderId='" + orderId + "'")
-                .add("lineItems=" + lineItems)
+                .add("lineItems=" + favFoodLineItems)
                 .toString();
     }
 
@@ -38,12 +41,12 @@ public class FavFoodOrder {
         FavFoodOrder that = (FavFoodOrder) o;
         return Objects.equals(customerName, that.customerName) &&
                 Objects.equals(orderId, that.orderId) &&
-                Objects.equals(lineItems, that.lineItems);
+                Objects.equals(favFoodLineItems, that.favFoodLineItems);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerName, orderId, lineItems);
+        return Objects.hash(customerName, orderId, favFoodLineItems);
     }
 
     public String getCustomerName() {
@@ -62,11 +65,11 @@ public class FavFoodOrder {
         this.orderId = orderId;
     }
 
-    public List<LineItem> getLineItems() {
-        return lineItems;
+    public List<FavFoodLineItem> getLineItems() {
+        return favFoodLineItems;
     }
 
-    public void setLineItems(List<LineItem> lineItems) {
-        this.lineItems = lineItems;
+    public void setLineItems(List<FavFoodLineItem> favFoodLineItems) {
+        this.favFoodLineItems = favFoodLineItems;
     }
 }

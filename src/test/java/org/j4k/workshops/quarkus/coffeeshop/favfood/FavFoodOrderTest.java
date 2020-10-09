@@ -1,6 +1,10 @@
-package org.j4k.workshops.quarkus.coffeeshop;
+package org.j4k.workshops.quarkus.coffeeshop.favfood;
 
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.mockito.InjectMock;
+import org.j4k.workshops.quarkus.coffeeshop.infrastructure.KafkaTestResource;
+import org.j4k.workshops.quarkus.coffeeshop.infrastructure.RESTService;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +20,17 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
-@QuarkusTest
+@QuarkusTest //@QuarkusTestResource(KafkaTestResource.class)
 public class FavFoodOrderTest {
 
     Logger logger = LoggerFactory.getLogger(FavFoodOrderTest.class);
+
+    final String json = "{\"customerName\":\"Lemmy\",\"orderId\":\"cdc07f8d-698e-43d9-8cd7-095dccace575\",\"lineItems\":[{\"item\":\"COFFEE_BLACK\",\"itemId\":\"0eb0f0e6-d071-464e-8624-23195c8f9e37\",\"quantity\":1}]}";
+
+/*
+    @InjectMock
+    RESTService restService;
+*/
 
     @Test
     public void testPlacingOrder() {
@@ -30,12 +41,12 @@ public class FavFoodOrderTest {
         given()
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(mockOrder)
+                .body(json)
                 .when()
                 .post("/api/favfood")
                 .then()
                     .statusCode(202)
-                    .body("orderId", equalTo(mockOrder.getString("orderId")))
+                    .body("orderId", equalTo("cdc07f8d-698e-43d9-8cd7-095dccace575"))
                     .body("customerName", equalTo("Lemmy"));
 
     }
@@ -59,7 +70,7 @@ public class FavFoodOrderTest {
     private JsonObject mockLineItem() {
 
         return Json.createObjectBuilder()
-                .add("item", "BLACK_COFFEE")
+                .add("item", "COFFEE_BLACK")
                 .add("itemId", UUID.randomUUID().toString())
                 .add("quantity", 1).build();
     }

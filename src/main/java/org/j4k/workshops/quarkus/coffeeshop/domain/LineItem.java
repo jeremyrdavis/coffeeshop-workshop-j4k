@@ -1,70 +1,102 @@
 package org.j4k.workshops.quarkus.coffeeshop.domain;
 
-import java.util.Objects;
-import java.util.StringJoiner;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
+@RegisterForReflection
 public class LineItem {
 
     String item;
 
-    String itemId;
+    String name;
 
-    int quantity;
-
+    /**
+     *
+     */
     public LineItem() {
     }
 
-    public LineItem(String item, String itemId, int quantity) {
+    /**
+     * @param item
+     * @param name
+     */
+    public LineItem(String item, String name) {
         this.item = item;
-        this.itemId = itemId;
-        this.quantity = quantity;
+        this.name = name;
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", LineItem.class.getSimpleName() + "[", "]")
-                .add("item='" + item + "'")
-                .add("itemId='" + itemId + "'")
-                .add("quantity=" + quantity)
-                .toString();
+        return "LineItem [item=" + item + ", name=" + name + "]";
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        LineItem lineItem = (LineItem) o;
-        return quantity == lineItem.quantity &&
-                Objects.equals(item, lineItem.item) &&
-                Objects.equals(itemId, lineItem.itemId);
-    }
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
 
     @Override
     public int hashCode() {
-        return Objects.hash(item, itemId, quantity);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((item == null) ? 0 : item.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        LineItem other = (LineItem) obj;
+        if (item == null) {
+            if (other.item != null)
+                return false;
+        } else if (!item.equals(other.item))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
+    }
+
+    /**
+     * @return the item
+     */
     public String getItem() {
         return item;
     }
 
+    /**
+     * @param item the item to set
+     */
     public void setItem(String item) {
         this.item = item;
     }
 
-    public String getItemId() {
-        return itemId;
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 }
