@@ -29,8 +29,8 @@ public class ApiResource {
 //    @Inject @RestClient
 //    RESTService restClient;
 
-//    @Inject
-//    KafkaService kafkaService;
+    @Inject
+    KafkaService kafkaService;
 
     @POST
     @Path("/favfood")
@@ -43,7 +43,7 @@ public class ApiResource {
         OrderInCommand orderInCommand = FavFoodOrderHandler.createFromFavFoodOrder(favFoodOrder);
         logger.debug("sending:{}", orderInCommand);
 
-//        kafkaService.placeOrder(orderInCommand);
+        kafkaService.placeOrder(orderInCommand);
 
 //        restClient.placeOrders(orderInCommand);
 
